@@ -10,7 +10,7 @@ import SwiftUI
 struct BananaView: View {
     var body: some View {
         NavigationCoordinator { navigation in
-            List {
+            ScrollView {
                 Button("Push CarrotView") {
                     navigation.push(.carrot)
                 }

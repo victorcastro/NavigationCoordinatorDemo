@@ -26,25 +26,24 @@ enum Destination: Hashable, View {
         case .none:
             EmptyView()
         case .apple:
-            AppleView()
+            AppleView().destination()
         case .banana:
-            BananaView()
-                .asNavigationView()
-                .presentationDetents([.medium])
+            BananaView().destination()
+                .presentationBackground(.ultraThinMaterial)
         case .carrot:
-            CarrotView()
+            CarrotView().destination()
         case .damson:
-            DamsonView()
+            DamsonView().destination()
         case .mango:
-            MangoView()
+            MangoView().destination()
         case .orange:
-            OrangeView()
+            OrangeView().destination()
         case .pear:
-            PearView()
+            PearView().destination()
         case .tomato:
-            TomatoView()
+            TomatoView().destination()
         case .watermelon:
-            WatermelonView()
+            WatermelonView().destination()
         }
     }
 }
@@ -84,13 +83,14 @@ enum Destination: Hashable, View {
 //        case .none:
 //            EmptyView()
 //        case .apple:
-//            AppleView()
+//            AppleView().destination() // add the `.destination()` after every view
 //        case .banana:
-//            BananaView()
+//            BananaView().destination()
+//                .presentationBackground(.ultraThinMaterial) // add any `presentation` for sheets after the `.destination()`
 //        case .carrot:
-//            CarrotView()
+//            CarrotView().destination()
 //        case .damson:
-//            DamsonView()
+//            DamsonView().destination()
 //        }
 //    }
 //}

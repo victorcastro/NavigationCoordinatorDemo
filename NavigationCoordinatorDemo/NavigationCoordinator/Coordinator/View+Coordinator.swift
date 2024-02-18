@@ -58,13 +58,8 @@ extension View {
     }
     
     @ViewBuilder
-    func asNavigationView() -> some View {
-        NavigationView {
-            self
-                .navigationBarBackButtonHidden()
-        }
-#if !os(macOS)
-        .navigationViewStyle(.stack)
-#endif
+    /// Sets the view a destination
+    func destination() -> some View {
+        self.modifier(DestinationViewModifier())
     }
 }

@@ -18,12 +18,7 @@ struct NavigationProvider: View {
     }
     
     var body: some View {
-        NavigationView {
-            navigation.stack.first?.destination
-        }
-#if !os(macOS)
-        .navigationViewStyle(.stack)
-#endif
-        .environmentObject(navigation)
+        navigation.stack.first?.destination
+            .environmentObject(navigation)
     }
 }

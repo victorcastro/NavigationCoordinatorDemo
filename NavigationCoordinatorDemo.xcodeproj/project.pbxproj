@@ -32,6 +32,7 @@
 		C90B80BE2B81E7A4006BFBA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80B42B81E7A4006BFBA7 /* ContentView.swift */; };
 		C90B80BF2B81E7A4006BFBA7 /* OrangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80B52B81E7A4006BFBA7 /* OrangeView.swift */; };
 		C90B80C12B81E7C2006BFBA7 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80C02B81E7C2006BFBA7 /* AppController.swift */; };
+		C90B80C52B8259A2006BFBA7 /* DestinationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		C90B80B42B81E7A4006BFBA7 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C90B80B52B81E7A4006BFBA7 /* OrangeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrangeView.swift; sourceTree = "<group>"; };
 		C90B80C02B81E7C2006BFBA7 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
+		C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				C90B809C2B81E798006BFBA7 /* DestinationLinkModifier.swift */,
 				C90B809D2B81E798006BFBA7 /* NavigationCoordinator.swift */,
 				C90B809E2B81E798006BFBA7 /* NavigationReaderBackButtonModifier.swift */,
+				C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				C90B80A82B81E798006BFBA7 /* DestinationLinkModifier.swift in Sources */,
 				C90B80BE2B81E7A4006BFBA7 /* ContentView.swift in Sources */,
 				C90B80B62B81E7A4006BFBA7 /* PearView.swift in Sources */,
+				C90B80C52B8259A2006BFBA7 /* DestinationViewModifier.swift in Sources */,
 				C90B809F2B81E798006BFBA7 /* Destination.swift in Sources */,
 				C90B80A42B81E798006BFBA7 /* OnAppearModifier.swift in Sources */,
 				C90B80A02B81E798006BFBA7 /* View+Coordinator.swift in Sources */,
