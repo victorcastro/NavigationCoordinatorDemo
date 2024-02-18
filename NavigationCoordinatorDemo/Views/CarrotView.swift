@@ -17,12 +17,12 @@ struct CarrotView: View {
                 }
                 
                 Button("Present DamsonView") {
-                    navigation.present(.damson)
+                    navigation.push(.damson, type: .sheet)
                 }
                 
 #if !os(macOS)
                 Button("Cover DamsonView") {
-                    navigation.cover(.damson)
+                    navigation.push(.damson, type: .fullScreenCover)
                 }
 #endif
                 

@@ -24,31 +24,28 @@ class Navigation: ObservableObject {
     
     /// Pushes a view onto the coordinator navigation stack
     /// - Parameters:
+    ///   - type: the type of navigation; default is `.link`
     ///   - destination: destination view
     ///   - onComplete: callback trigerred when the navigation finished
-    func push(_ destination: Destination, onComplete: (() -> Void)? = nil) {
-        jump(to: destination, type: .link, onComplete: onComplete)
-    }
-    
-    /// Presents a sheet onto the coordinator navigation stack
-    /// - Parameters:
-    ///   - destination: destination view
-    ///   - presentationOptions: optional presentation options; default is `nil`
-    ///   - onComplete: callback trigerred when the navigation finished
-    func present(_ destination: Destination, options: PresentationOptions? = nil, onComplete: (() -> Void)? = nil) {
-        jump(to: destination, type: .sheet, options: options, onComplete: onComplete)
-    }
-    
-    /// Presents a full screen cover onto the coordinator navigation stack
-    /// - Parameters:
-    ///   - destination: destination view
-    ///   - onComplete: callback trigerred when the navigation finished
-    func cover(_ destination: Destination, onComplete: (() -> Void)? = nil) {
+    func push(_ destination: Destination, type: NavigationType = .link, onComplete: (() -> Void)? = nil) {
+        switch type {
+        case .link:
+            stack.append(.init(push: destination))
+        case .sheet:
+            stack.append(.init(present: destination))
+        case .fullScreenCover:
 #if !os(macOS)
-        jump(to: destination, type: .fullScreenCover, onComplete: onComplete)
+            stack.append(.init(cover: destination))
 #else
-        jump(to: destination, type: .sheet, onComplete: onComplete)
+            stack.append(.init(present: destination))
 #endif
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001, execute: {
+            self.isPresented.append(true)
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+            onComplete?()
+        })
     }
     
     /// Pops the last n views from the coordinator navigation stack
@@ -145,39 +142,15 @@ class Navigation: ObservableObject {
     
     /// Pushes a view onto the coordinator navigation stack
     /// - Parameters:
+    ///   - type: the type of navigation; default is `.link
     ///   - destination: destination view
-    func push(_ destination: Destination) async {
+    func push(_ destination: Destination, type: NavigationType = .link) async {
         await withCheckedContinuation { continuation in
-            push(destination) {
+            push(destination, type: type) {
                 continuation.resume()
             }
         }
     }
-    
-    // Presents a sheet onto the coordinator navigation stack
-    /// - Parameters:
-    ///   - destination: destination view
-    ///   - presentationOptions: optional presentation options; default is `nil`
-    func present(_ destination: Destination, options: PresentationOptions? = nil) async {
-        await withCheckedContinuation { continuation in
-            present(destination, options: options) {
-                continuation.resume()
-            }
-        }
-    }
-    
-#if !os(macOS)
-    /// Presents a full screen cover onto the coordinator navigation stack
-    /// - Parameters:
-    ///   - destination: destination view
-    func cover(_ destination: Destination) async {
-        await withCheckedContinuation { continuation in
-            cover(destination) {
-                continuation.resume()
-            }
-        }
-    }
-#endif
     
     /// Pops the last n views from the coordinator navigation stack
     /// - Parameters:
@@ -222,22 +195,4 @@ class Navigation: ObservableObject {
         }
     }
     
-    // MARK: - fileprivate
-    
-    fileprivate func jump(to destination: Destination, type: NavigationType, options: PresentationOptions? = nil, onComplete: (() -> Void)?) {
-        switch type {
-        case .link:
-            stack.append(.init(push: destination))
-        case .sheet:
-            stack.append(.init(present: destination, options: options))
-        case .fullScreenCover:
-            stack.append(.init(cover: destination))
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001, execute: {
-            self.isPresented.append(true)
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
-            onComplete?()
-        })
-    }
 }

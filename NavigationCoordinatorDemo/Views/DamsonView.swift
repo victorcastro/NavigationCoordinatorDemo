@@ -16,12 +16,12 @@ struct DamsonView: View {
                 }
                 
                 Button("Present MangoView") {
-                    navigation.present(.mango)
+                    navigation.push(.mango, type: .sheet)
                 }
                 
 #if !os(macOS)
                 Button("Cover MangoView") {
-                    navigation.cover(.mango)
+                    navigation.push(.mango, type: .fullScreenCover)
                 }
 #endif
                 

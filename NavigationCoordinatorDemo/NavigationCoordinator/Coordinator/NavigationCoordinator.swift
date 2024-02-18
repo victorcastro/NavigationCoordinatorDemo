@@ -27,32 +27,9 @@ struct NavigationCoordinator<Content: View>: View {
             .if(destinationIndex != -1, transform: { view in
                 view
                     .navigation(navigationStep.type, isPresented: $isPresented) {
-                        if navigationStep.type == .link {
-                            if destinationIndex < navigation.stack.count - 1 {
-                                navigation.stack[destinationIndex + 1].destination
-                                    .navigationBarBackButtonHidden()
-                            }
-                        } else {
-                            NavigationView {
-                                navigation.stack[destinationIndex + 1].destination
-                                    .navigationBarBackButtonHidden()
-                                    .if(navigationStep.options != nil, transform: { view in
-                                        view
-                                            .interactiveDismissDisabled(navigationStep.options!.interactiveDismissDisabled)
-                                    })
-                                    
-                            }
-#if !os(macOS)
-                            .navigationViewStyle(.stack)
-#endif
-                            .if(navigationStep.options != nil, transform: { view in
-                                view
-                                    .presentationDetents(navigationStep.options!.detents)
-                                    .presentationCornerRadius(navigationStep.options!.cornerRadius)
-                                    .presentationDragIndicator(navigationStep.options!.dragIndicatorVisibility)
-                                    .presentationContentInteraction(navigationStep.options!.contentInteraction)
-                                    .presentationBackgroundInteraction(navigationStep.options!.backgroundInteraction)
-                            })
+                        if destinationIndex < navigation.stack.count - 1 {
+                            navigation.stack[destinationIndex + 1].destination
+                                .navigationBarBackButtonHidden()
                         }
                     }
                     .onReceive(navigation.$isPresented) { isPresented in

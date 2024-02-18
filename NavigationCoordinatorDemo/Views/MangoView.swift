@@ -16,12 +16,12 @@ struct MangoView: View {
                 }
                 
                 Button("Present OrangeView") {
-                    navigation.present(.orange)
+                    navigation.push(.orange, type: .sheet)
                 }
                 
 #if !os(macOS)
                 Button("Cover OrangeView") {
-                    navigation.cover(.orange)
+                    navigation.push(.orange, type: .fullScreenCover)
                 }
 #endif
                 

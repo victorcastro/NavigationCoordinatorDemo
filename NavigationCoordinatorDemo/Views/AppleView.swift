@@ -16,14 +16,14 @@ struct AppleView: View {
                 }
                 
                 Button("Present BananaView") {
-                    navigation.present(.banana) {
+                    navigation.push(.banana, type: .sheet) {
                         print("Presented BananaView.")
                     }
                 }
                 
                 Button("Cover BananaView") {
                     Task {
-                        await navigation.cover(.banana)
+                        await navigation.push(.banana, type: .fullScreenCover)
                         print("Covered BananaView.")
                     }
                 }
@@ -31,10 +31,10 @@ struct AppleView: View {
                 Button("Deep link") {
                     navigation.push(.banana) {
                         navigation.push(.carrot) {
-                            navigation.cover(.damson) {
-                                navigation.present(.mango) {
+                            navigation.push(.damson, type: .fullScreenCover) {
+                                navigation.push(.mango, type: .sheet) {
                                     navigation.push(.orange) {
-                                        navigation.present(.pear) {
+                                        navigation.push(.pear, type: .sheet) {
                                             print("Deep linking finished.")
                                         }
                                     }
@@ -48,10 +48,10 @@ struct AppleView: View {
                     Task {
                         await navigation.push(.banana)
                         await navigation.push(.carrot)
-                        await navigation.cover(.damson)
-                        await navigation.present(.mango)
+                        await navigation.push(.damson, type: .fullScreenCover)
+                        await navigation.push(.mango, type: .sheet)
                         await navigation.push(.orange)
-                        await navigation.present(.pear)
+                        await navigation.push(.pear, type: .sheet)
                         print("Deep linking finished.")
                     }
                 }

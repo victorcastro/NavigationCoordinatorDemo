@@ -16,12 +16,12 @@ struct BananaView: View {
                 }
                 
                 Button("Present CarrotView") {
-                    navigation.present(.carrot)
+                    navigation.push(.carrot, type: .sheet)
                 }
                 
 #if !os(macOS)
                 Button("Cover CarrotView") {
-                    navigation.cover(.carrot)
+                    navigation.push(.carrot, type: .fullScreenCover)
                 }
 #endif
                 

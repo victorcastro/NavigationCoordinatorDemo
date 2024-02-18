@@ -16,7 +16,6 @@
 		C90B80A22B81E798006BFBA7 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80962B81E798006BFBA7 /* Navigation.swift */; };
 		C90B80A32B81E798006BFBA7 /* RootType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80972B81E798006BFBA7 /* RootType.swift */; };
 		C90B80A42B81E798006BFBA7 /* OnAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80982B81E798006BFBA7 /* OnAppearModifier.swift */; };
-		C90B80A52B81E798006BFBA7 /* PresentationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80992B81E798006BFBA7 /* PresentationOptions.swift */; };
 		C90B80A62B81E798006BFBA7 /* NavigationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B809A2B81E798006BFBA7 /* NavigationProvider.swift */; };
 		C90B80A72B81E798006BFBA7 /* NavigationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B809B2B81E798006BFBA7 /* NavigationType.swift */; };
 		C90B80A82B81E798006BFBA7 /* DestinationLinkModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B809C2B81E798006BFBA7 /* DestinationLinkModifier.swift */; };
@@ -46,7 +45,6 @@
 		C90B80962B81E798006BFBA7 /* Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		C90B80972B81E798006BFBA7 /* RootType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootType.swift; sourceTree = "<group>"; };
 		C90B80982B81E798006BFBA7 /* OnAppearModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnAppearModifier.swift; sourceTree = "<group>"; };
-		C90B80992B81E798006BFBA7 /* PresentationOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationOptions.swift; sourceTree = "<group>"; };
 		C90B809A2B81E798006BFBA7 /* NavigationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationProvider.swift; sourceTree = "<group>"; };
 		C90B809B2B81E798006BFBA7 /* NavigationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationType.swift; sourceTree = "<group>"; };
 		C90B809C2B81E798006BFBA7 /* DestinationLinkModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationLinkModifier.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				C90B80962B81E798006BFBA7 /* Navigation.swift */,
 				C90B80972B81E798006BFBA7 /* RootType.swift */,
 				C90B80982B81E798006BFBA7 /* OnAppearModifier.swift */,
-				C90B80992B81E798006BFBA7 /* PresentationOptions.swift */,
 				C90B809A2B81E798006BFBA7 /* NavigationProvider.swift */,
 				C90B809B2B81E798006BFBA7 /* NavigationType.swift */,
 				C90B809C2B81E798006BFBA7 /* DestinationLinkModifier.swift */,
@@ -249,7 +246,6 @@
 				C90B80B62B81E7A4006BFBA7 /* PearView.swift in Sources */,
 				C90B809F2B81E798006BFBA7 /* Destination.swift in Sources */,
 				C90B80A42B81E798006BFBA7 /* OnAppearModifier.swift in Sources */,
-				C90B80A52B81E798006BFBA7 /* PresentationOptions.swift in Sources */,
 				C90B80A02B81E798006BFBA7 /* View+Coordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -56,4 +56,15 @@ extension View {
 #endif
         }
     }
+    
+    @ViewBuilder
+    func navigatable() -> some View {
+        NavigationView {
+            self
+                .navigationBarBackButtonHidden()
+        }
+#if !os(macOS)
+        .navigationViewStyle(.stack)
+#endif
+    }
 }
