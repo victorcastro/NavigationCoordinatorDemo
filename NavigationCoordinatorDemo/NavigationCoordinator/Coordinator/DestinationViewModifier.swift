@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct DestinationViewModifier: ViewModifier {
-    
-    @EnvironmentObject private var navigation: Navigation
-    
     func body(content: Content) -> some View {
         NavigationView {
             content
