@@ -29,7 +29,7 @@ enum Destination: Hashable, View {
             AppleView()
         case .banana:
             BananaView()
-                .navigatable()
+                .asNavigationView()
                 .presentationDetents([.medium])
         case .carrot:
             CarrotView()

@@ -58,7 +58,7 @@ extension View {
     }
     
     @ViewBuilder
-    func navigatable() -> some View {
+    func asNavigationView() -> some View {
         NavigationView {
             self
                 .navigationBarBackButtonHidden()
