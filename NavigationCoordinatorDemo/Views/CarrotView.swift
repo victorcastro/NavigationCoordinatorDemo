@@ -31,6 +31,8 @@ struct CarrotView: View {
                 }
             }
             .navigationTitle("CarrotView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

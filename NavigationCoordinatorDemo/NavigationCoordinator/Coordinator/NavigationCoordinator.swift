@@ -10,28 +10,39 @@ import SwiftUI
 struct NavigationCoordinator<Content: View>: View {
     
     @ViewBuilder var content: (Navigation) -> Content
+    let onDismiss: ((Destination) -> Void)?
     
     /// Container view for coordinator navigation
     /// - Parameter content: the content view
-    init(content: @escaping (Navigation) -> Content) {
+    init(content: @escaping (Navigation) -> Content, onDismiss: ((Destination) -> Void)? = nil) {
         self.content = content
+        self.onDismiss = onDismiss
     }
     
     @EnvironmentObject private var navigation: Navigation
     @State private var isPresented = false
     @State private var navigationStep = NavigationStep(push: .none)
     @State private var destinationIndex = -1
+    @State private var dismissedDestination: Destination = .none
     
     var body: some View {
         content(navigation)
             .if(destinationIndex != -1, transform: { view in
                 view
-                    .navigation(navigationStep.type, isPresented: $isPresented) {
+                    .navigation(navigationStep.type, isPresented: $isPresented, onDismiss: {
+                        onDismiss?(dismissedDestination)
+                    }, destination: {
                         if destinationIndex < navigation.stack.count - 1 {
                             navigation.stack[destinationIndex + 1].destination
                                 .navigationBarBackButtonHidden()
                         }
-                    }
+                    })
+//                    .navigation(navigationStep.type, isPresented: $isPresented) {
+//                        if destinationIndex < navigation.stack.count - 1 {
+//                            navigation.stack[destinationIndex + 1].destination
+//                                .navigationBarBackButtonHidden()
+//                        }
+//                    }
                     .onReceive(navigation.$isPresented) { isPresented in
                         if destinationIndex < isPresented.count {
                             self.isPresented = isPresented[destinationIndex]
@@ -54,6 +65,9 @@ struct NavigationCoordinator<Content: View>: View {
                             } else {
                                 remove(1)
                             }
+                        } else {
+                            print("Presenting: \(navigation.stack[destinationIndex + 1].destination)")
+                            dismissedDestination = navigation.stack[destinationIndex + 1].destination
                         }
                     }
                     .onReceive(navigation.$stack) { stack in

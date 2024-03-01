@@ -57,6 +57,8 @@ struct AppleView: View {
                 }
             }
             .navigationTitle("AppleView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

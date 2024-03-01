@@ -30,6 +30,8 @@ struct DamsonView: View {
                 }
             }
             .navigationTitle("DamsonView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

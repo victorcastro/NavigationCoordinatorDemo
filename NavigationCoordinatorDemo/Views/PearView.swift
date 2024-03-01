@@ -22,6 +22,8 @@ struct PearView: View {
                 }
             }
             .navigationTitle("PearView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

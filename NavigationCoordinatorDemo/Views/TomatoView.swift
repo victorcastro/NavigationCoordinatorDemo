@@ -20,6 +20,8 @@ struct TomatoView: View {
                 }
             }
             .navigationTitle("TomatoView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

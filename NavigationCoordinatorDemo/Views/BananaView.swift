@@ -30,6 +30,8 @@ struct BananaView: View {
                 }
             }
             .navigationTitle("BananaView")
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }

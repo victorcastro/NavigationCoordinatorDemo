@@ -20,6 +20,8 @@ struct WatermelonView: View {
             }
             .navigationTitle("\(appController.title)View")
             .navigationBarBackButtonShown()
+        } onDismiss: { destination in
+            print("dismissed: \(destination)")
         }
     }
 }
