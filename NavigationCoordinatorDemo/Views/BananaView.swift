@@ -12,11 +12,17 @@ struct BananaView: View {
         NavigationCoordinator { navigation in
             ScrollView {
                 Button("Push CarrotView") {
-                    navigation.push(.carrot)
+                    navigation.push(.carrot) {
+                        print("Pushed CarrotView.")
+                    } onDismiss: {
+                        print("Dismissed CarrotView.")
+                    }
                 }
                 
                 Button("Present CarrotView") {
-                    navigation.push(.carrot, type: .sheet)
+                    navigation.push(.carrot, type: .sheet, onDismiss: {
+                        print("Dismissed CarrotView.")
+                    })
                 }
                 
 #if !os(macOS)
@@ -30,8 +36,6 @@ struct BananaView: View {
                 }
             }
             .navigationTitle("BananaView")
-        } onDismiss: { destination in
-            print("dismissed: \(destination)")
         }
     }
 }

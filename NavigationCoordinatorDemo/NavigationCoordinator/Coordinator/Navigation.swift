@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 @MainActor
 class Navigation: ObservableObject {
@@ -16,6 +17,10 @@ class Navigation: ObservableObject {
     
     @Published var isPopping = false
     
+    @Published var dismissedDestination: Destination = .none
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
     init(root: Destination) {
         stack = [.init(push: root)]
     }
@@ -24,28 +29,38 @@ class Navigation: ObservableObject {
     
     /// Pushes a view onto the coordinator navigation stack
     /// - Parameters:
-    ///   - type: the type of navigation; default is `.link`
     ///   - destination: destination view
+    ///   - type: the type of navigation; default is `.link`
     ///   - onComplete: callback trigerred when the navigation finished
-    func push(_ destination: Destination, type: NavigationType = .link, onComplete: (() -> Void)? = nil) {
-        switch type {
-        case .link:
-            stack.append(.init(push: destination))
-        case .sheet:
-            stack.append(.init(present: destination))
-        case .fullScreenCover:
-#if !os(macOS)
-            stack.append(.init(cover: destination))
-#else
-            stack.append(.init(present: destination))
-#endif
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001, execute: {
-            self.isPresented.append(true)
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
-            onComplete?()
-        })
+    ///   - onDismiss: callback trigerred when the `destination` is dismissed
+    func push(_ destination: Destination, type: NavigationType = .link, onComplete: @escaping (() -> Void), onDismiss: @escaping (() -> Void)) {
+        present(destination, type: type, onComplete: onComplete, onDismiss: onDismiss)
+    }
+    
+    /// Pushes a view onto the coordinator navigation stack
+    /// - Parameters:
+    ///   - destination: destination view
+    ///   - type: the type of navigation; default is `.link`
+    ///   - onComplete: callback trigerred when the navigation finished
+    func push(_ destination: Destination, type: NavigationType = .link, onComplete: @escaping (() -> Void)) {
+        present(destination, type: type, onComplete: onComplete, onDismiss: nil)
+    }
+    
+    /// Pushes a view onto the coordinator navigation stack
+    /// - Parameters:
+    ///   - destination: destination view
+    ///   - type: the type of navigation; default is `.link`
+    ///   - onDismiss: callback trigerred when the `destination` is dismissed
+    func push(_ destination: Destination, type: NavigationType = .link, onDismiss: @escaping (() -> Void)) {
+        present(destination, type: type, onComplete: nil, onDismiss: onDismiss)
+    }
+    
+    /// Pushes a view onto the coordinator navigation stack
+    /// - Parameters:
+    ///   - destination: destination view
+    ///   - type: the type of navigation; default is `.link`
+    func push(_ destination: Destination, type: NavigationType = .link) {
+        present(destination, type: type, onComplete: nil, onDismiss: nil)
     }
     
     /// Pops the last n views from the coordinator navigation stack
@@ -144,10 +159,12 @@ class Navigation: ObservableObject {
     /// - Parameters:
     ///   - type: the type of navigation; default is `.link
     ///   - destination: destination view
-    func push(_ destination: Destination, type: NavigationType = .link) async {
+    func push(_ destination: Destination, type: NavigationType = .link, onDismiss: (() -> Void)? = nil) async {
         await withCheckedContinuation { continuation in
             push(destination, type: type) {
                 continuation.resume()
+            } onDismiss: {
+                onDismiss?()
             }
         }
     }
@@ -193,6 +210,45 @@ class Navigation: ObservableObject {
                 continuation.resume()
             }
         }
+    }
+    
+    // MARK: - Private
+    
+    /// Pushes a view onto the coordinator navigation stack
+    /// - Parameters:
+    ///   - destination: destination view
+    ///   - type: the type of navigation; default is `.link`
+    ///   - onComplete: callback trigerred when the navigation finished
+    ///   - onDismiss: callback trigerred when the `destination` is dismissed
+    private func present(_ destination: Destination, type: NavigationType, onComplete: (() -> Void)?, onDismiss: (() -> Void)?) {
+        switch type {
+        case .link:
+            stack.append(.init(push: destination))
+        case .sheet:
+            stack.append(.init(present: destination))
+        case .fullScreenCover:
+#if !os(macOS)
+            stack.append(.init(cover: destination))
+#else
+            stack.append(.init(present: destination))
+#endif
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001, execute: {
+            self.isPresented.append(true)
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+            onComplete?()
+        })
+        
+        var cancellable: AnyCancellable?
+        cancellable = self.$dismissedDestination.receive(on: DispatchQueue.main).sink { dismissedDestination in
+            if destination == dismissedDestination {
+                self.dismissedDestination = .none
+                cancellable?.cancel()
+                onDismiss?()
+            }
+        }
+        cancellable?.store(in: &cancellables)
     }
     
 }

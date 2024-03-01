@@ -13,7 +13,9 @@ struct CarrotView: View {
         NavigationCoordinator { navigation in
             List {
                 Button("Push DamsonView") {
-                    navigation.push(.damson)
+                    navigation.push(.damson, onComplete: {
+                        print("Pushed DamsonView.")
+                    })
                 }
                 
                 Button("Present DamsonView") {
@@ -31,8 +33,6 @@ struct CarrotView: View {
                 }
             }
             .navigationTitle("CarrotView")
-        } onDismiss: { destination in
-            print("dismissed: \(destination)")
         }
     }
 }

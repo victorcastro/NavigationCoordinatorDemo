@@ -65,8 +65,6 @@ struct OrangeView: View {
             }
             .navigationTitle("OrangeView")
             .navigationBarBackButtonShown(iconSystemName: nil, title: "Cancel")
-        } onDismiss: { destination in
-            print("dismissed: \(destination)")
         }
     }
 }

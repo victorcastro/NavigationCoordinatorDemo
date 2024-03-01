@@ -30,8 +30,6 @@ struct MangoView: View {
                 }
             }
             .navigationTitle("MangoView")
-        } onDismiss: { destination in
-            print("dismissed: \(destination)")
         }
     }
 }
