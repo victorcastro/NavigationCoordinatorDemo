@@ -19,6 +19,11 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "2.circle")
                 }
+            
+            NavigationProvider(root: .grapes)
+                .tabItem {
+                    Image(systemName: "3.circle")
+                }
         }
     }
 }

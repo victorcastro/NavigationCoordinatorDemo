@@ -20,6 +20,8 @@ enum Destination: Hashable, View {
     case pear
     case tomato
     case watermelon
+    case grapes
+    case grape
     
     var body: some View {
         switch self {
@@ -44,6 +46,10 @@ enum Destination: Hashable, View {
             TomatoView().destination()
         case .watermelon:
             WatermelonView().destination()
+        case .grapes:
+            GrapesView().destination()
+        case .grape:
+            GrapeView()
         }
     }
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CarrotView: View {
-    
     var body: some View {
         NavigationCoordinator { navigation in
             List {
