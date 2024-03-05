@@ -9,32 +9,26 @@ import SwiftUI
 
 struct MangoView: View {
     
-    @State private var navigation: Navigation?
+    @EnvironmentObject private var navigation: Navigation
     
     var body: some View {
-        content
-            .connect($navigation)
-    }
-    
-    @MainActor
-    var content: some View {
         List {
             Button("Push OrangeView") {
-                navigation?.push(.orange)
+                navigation.push(.orange)
             }
             
             Button("Present OrangeView") {
-                navigation?.push(.orange, type: .sheet)
+                navigation.push(.orange, type: .sheet)
             }
             
 #if !os(macOS)
             Button("Cover OrangeView") {
-                navigation?.push(.orange, type: .fullScreenCover)
+                navigation.push(.orange, type: .fullScreenCover)
             }
 #endif
             
             Button("Pop") {
-                navigation?.pop()
+                navigation.pop()
             }
         }
         .navigationTitle("MangoView")

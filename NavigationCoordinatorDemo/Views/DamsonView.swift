@@ -8,20 +8,8 @@
 import SwiftUI
 
 struct DamsonView: View {
-    var body: some View {
-        NavigationCoordinator { navigation in
-            DamsonViewContent(navigation: navigation)
-        }
-    }
-}
-
-#Preview {
-    DamsonView()
-}
-
-struct DamsonViewContent: View {
     
-    let navigation: Navigation
+    @EnvironmentObject private var navigation: Navigation
     
     var body: some View {
         List {
@@ -45,4 +33,8 @@ struct DamsonViewContent: View {
         }
         .navigationTitle("DamsonView")
     }
+}
+
+#Preview {
+    DamsonView()
 }

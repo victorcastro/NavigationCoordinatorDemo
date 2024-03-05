@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct CarrotView: View {
-    var body: some View {
-        NavigationCoordinator { navigation in
-            content(navigation)
-        }
-    }
     
-    @MainActor
-    func content(_ navigation: Navigation) -> some View {
+    @EnvironmentObject private var navigation: Navigation
+    
+    var body: some View {
         List {
             Button("Push DamsonView") {
                 navigation.push(.damson, onComplete: {

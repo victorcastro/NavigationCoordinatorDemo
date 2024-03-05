@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct PearView: View {
+    
+    @EnvironmentObject private var navigation: Navigation
+    
     var body: some View {
-        NavigationCoordinator { navigation in
-            List {
-                Button("Replace with OrangeView") {
-                    navigation.replace(with: .orange) {
-                        print("Completed replacing with orange.")
-                    }
-                }
-                
-                Button("Pop") {
-                    navigation.pop()
+        List {
+            Button("Replace with OrangeView") {
+                navigation.replace(with: .orange) {
+                    print("Completed replacing with orange.")
                 }
             }
-            .navigationTitle("PearView")
+            
+            Button("Pop") {
+                navigation.pop()
+            }
         }
+        .navigationTitle("PearView")
     }
 }
 

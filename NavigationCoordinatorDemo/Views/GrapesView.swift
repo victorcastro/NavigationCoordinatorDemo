@@ -9,18 +9,17 @@ import SwiftUI
 
 struct GrapesView: View {
     
+    @EnvironmentObject private var navigation: Navigation
     @EnvironmentObject private var appController: AppController
     
     var body: some View {
-        NavigationCoordinator { navigation in
-            List {
-                ForEach(appController.grapes, id: \.self) { grape in
-                    Button {
-                        appController.selectedGrape = grape
-                        navigation.push(.grape)
-                    } label: {
-                        Text("Grape: \(grape)")
-                    }
+        List {
+            ForEach(appController.grapes, id: \.self) { grape in
+                Button {
+                    appController.selectedGrape = grape
+                    navigation.push(.grape)
+                } label: {
+                    Text("Grape: \(grape)")
                 }
             }
         }

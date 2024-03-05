@@ -9,18 +9,17 @@ import SwiftUI
 
 struct TomatoView: View {
     
+    @EnvironmentObject private var navigation: Navigation
     @EnvironmentObject private var appController: AppController
     
     var body: some View {
-        NavigationCoordinator { navigation in
-            List {
-                Button("Push WatermelonView") {
-                    appController.title = "Watermelon"
-                    navigation.push(.watermelon)
-                }
+        List {
+            Button("Push WatermelonView") {
+                appController.title = "Watermelon"
+                navigation.push(.watermelon)
             }
-            .navigationTitle("TomatoView")
         }
+        .navigationTitle("TomatoView")
     }
 }
 

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct NavigationCoordinator<Content: View>: View {
     
-    @ViewBuilder var content: (Navigation) -> Content
+    @ViewBuilder var content: () -> Content
     
     /// Container view for coordinator navigation
     /// - Parameter content: the content view
-    init(content: @escaping (Navigation) -> Content) {
+    init(content: @escaping () -> Content) {
         self.content = content
     }
     
@@ -24,7 +24,7 @@ struct NavigationCoordinator<Content: View>: View {
     @State private var dismissedDestination: Destination = .none
     
     var body: some View {
-        content(navigation)
+        content()
             .if(destinationIndex != -1, transform: { view in
                 view
                     .navigation(navigationStep.type, isPresented: $isPresented, onDismiss: {

@@ -49,7 +49,7 @@ enum Destination: Hashable, View {
         case .grapes:
             GrapesView().destination()
         case .grape:
-            GrapeView()
+            GrapeView().destination()
         }
     }
 }
