@@ -10,17 +10,17 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            NavigationProvider(root: .apple)
+            NavigationRoot(.apple)
                 .tabItem {
                     Image(systemName: "1.circle")
                 }
             
-            NavigationProvider(root: .tomato)
+            NavigationRoot(.tomato)
                 .tabItem {
                     Image(systemName: "2.circle")
                 }
             
-            NavigationProvider(root: .grapes)
+            NavigationRoot(.grapes)
                 .tabItem {
                     Image(systemName: "3.circle")
                 }
