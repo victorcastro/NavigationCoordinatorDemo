@@ -65,7 +65,7 @@ struct OrangeView: View {
             
         }
         .navigationTitle("OrangeView")
-        .navigationBarBackButtonShown(iconSystemName: nil, title: "Cancel")
+        .navigationBarBackButton(iconSystemName: nil, title: "Cancel")
     }
 }
 

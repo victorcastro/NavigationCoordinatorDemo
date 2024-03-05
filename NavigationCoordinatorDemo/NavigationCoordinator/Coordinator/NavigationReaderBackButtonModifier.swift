@@ -26,12 +26,15 @@ struct NavigationReaderBackButtonModifier: ViewModifier {
                             HStack(spacing: 0) {
                                 if let iconSystemName = iconSystemName {
                                     Image(systemName: iconSystemName)
+                                        .fontWeight(.semibold)
+                                        .padding(.trailing, 5)
                                 }
                                 if let title = title {
                                     Text(title)
                                 }
                                 if iconSystemName == nil && title == nil {
                                     Image(systemName: "chevron.backward")
+                                        .fontWeight(.semibold)
                                 }
                             }
                         }
@@ -49,9 +52,7 @@ extension View {
     ///   show the back button. The default value is `true`.
     ///   - iconSystemName: System image name for the button icon. The default value is `chevron.backward`.
     ///   - title: Title for the back button. The default value is `Back`.
-    func navigationBarBackButtonShown(_ isShown: Bool = true, iconSystemName: String? = "chevron.backward", title: String? = "Back") -> some View {
+    func navigationBarBackButton(isShown: Bool = true, iconSystemName: String? = "chevron.backward", title: String? = "Back") -> some View {
         self.modifier(NavigationReaderBackButtonModifier(isShown: isShown, iconSystemName: iconSystemName, title: title))
     }
 }
-
-

@@ -18,7 +18,6 @@ struct GrapeView: View {
                 navigation.push(.banana, type: .sheet)
             }
         }
-        .navigationBarBackButtonShown()
         .navigationTitle(appController.selectedGrape != nil ? "Grape \(appController.selectedGrape!)" : "Invalid grape")
     }
 }

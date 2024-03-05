@@ -19,7 +19,6 @@ struct WatermelonView: View {
             }
         }
         .navigationTitle("\(appController.title)View")
-        .navigationBarBackButtonShown()
     }
 }
 
