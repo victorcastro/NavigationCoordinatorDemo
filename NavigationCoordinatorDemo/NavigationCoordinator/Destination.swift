@@ -9,8 +9,6 @@ import SwiftUI
 
 enum Destination: Hashable, View {
     
-    case none
-    
     case apple
     case banana
     case carrot
@@ -25,8 +23,6 @@ enum Destination: Hashable, View {
     
     var body: some View {
         switch self {
-        case .none:
-            EmptyView()
         case .apple:
             AppleView().destination()
         case .banana:
@@ -56,29 +52,13 @@ enum Destination: Hashable, View {
 
 //// Starter Destination
 ////
-//// DO NOT REMOVE the `none` case
 //// Add new cases for new destination views
 //// DO NOT use dependency injection; use `EnvironmentObject`s instead to pass data between views
-//
-//enum Destination: Hashable, View {
-//    
-//    case none
-//    
-//    var body: some View {
-//        switch self {
-//        case .none:
-//            EmptyView()
-//        }
-//    }
-//}
-//
 //
 // Example Destination
 //
 //enum Destination: Hashable, View {
-//    
-//    case none
-//    
+//
 //    case apple
 //    case banana
 //    case carrot
@@ -86,8 +66,6 @@ enum Destination: Hashable, View {
 //
 //    var body: some View {
 //        switch self {
-//        case .none:
-//            EmptyView()
 //        case .apple:
 //            AppleView().destination() // add the `.destination()` after every view
 //        case .banana:

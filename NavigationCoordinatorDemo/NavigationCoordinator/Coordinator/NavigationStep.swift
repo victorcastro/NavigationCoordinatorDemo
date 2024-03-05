@@ -8,12 +8,12 @@
 import Foundation
 
 struct NavigationStep {
-    var destination: Destination
+    var destination: Destination?
     var type: NavigationType
     
     /// Pushes a view onto the coordinator navigation stack
     /// - Parameter destination: the destination of the step
-    init(push destination: Destination) {
+    init(push destination: Destination?) {
         self.destination = destination
         self.type = .link
     }
@@ -21,14 +21,14 @@ struct NavigationStep {
     /// Presents a sheet onto the coordinator navigation stack
     /// - Parameters:
     ///   - destination: the destination of the step
-    init(present destination: Destination) {
+    init(present destination: Destination?) {
         self.destination = destination
         self.type = .sheet
     }
     
     /// Presents a full screen cover onto the coordinator navigation stack
     /// - Parameter destination: the destination of the step
-    init(cover destination: Destination) {
+    init(cover destination: Destination?) {
         self.destination = destination
         self.type = .fullScreenCover
     }

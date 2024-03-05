@@ -17,7 +17,7 @@ class Navigation: ObservableObject {
     
     @Published var isPopping = false
     
-    @Published var dismissedDestination: Destination = .none
+    @Published var dismissedDestination: Destination? = nil
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -107,6 +107,7 @@ class Navigation: ObservableObject {
             }
             guard let index = index else { return }
             let destination = stack[index].destination
+            guard let destination else { return }
             pop(to: destination, onComplete: onComplete)
         case .firstModal:
             let index = stack.firstIndex { navigationStep in
@@ -114,6 +115,7 @@ class Navigation: ObservableObject {
             }
             guard let index = index else { return }
             let destination = stack[index].destination
+            guard let destination else { return }
             pop(to: destination, onComplete: onComplete)
         case .modal(let count):
             var modalCount = 0
@@ -137,6 +139,7 @@ class Navigation: ObservableObject {
             }
             if index != -1 {
                 let destination = stack[index].destination
+                guard let destination else { return }
                 pop(to: destination, onComplete: onComplete)
             }
             
@@ -243,7 +246,7 @@ class Navigation: ObservableObject {
         var cancellable: AnyCancellable?
         cancellable = self.$dismissedDestination.receive(on: DispatchQueue.main).sink { dismissedDestination in
             if destination == dismissedDestination {
-                self.dismissedDestination = .none
+                self.dismissedDestination = nil
                 cancellable?.cancel()
                 onDismiss?()
             }

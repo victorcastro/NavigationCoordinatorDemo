@@ -21,7 +21,7 @@ struct NavigationCoordinator<Content: View>: View {
     @State private var isPresented = false
     @State private var navigationStep = NavigationStep(push: .none)
     @State private var destinationIndex = -1
-    @State private var dismissedDestination: Destination = .none
+    @State private var dismissedDestination: Destination? = nil
     
     var body: some View {
         content()
