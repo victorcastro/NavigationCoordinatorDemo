@@ -10,30 +10,39 @@ import SwiftUI
 struct DamsonView: View {
     var body: some View {
         NavigationCoordinator { navigation in
-            List {
-                Button("Push MangoView") {
-                    navigation.push(.mango)
-                }
-                
-                Button("Present MangoView") {
-                    navigation.push(.mango, type: .sheet)
-                }
-                
-#if !os(macOS)
-                Button("Cover MangoView") {
-                    navigation.push(.mango, type: .fullScreenCover)
-                }
-#endif
-                
-                Button("Pop") {
-                    navigation.pop()
-                }
-            }
-            .navigationTitle("DamsonView")
+            DamsonViewContent(navigation: navigation)
         }
     }
 }
 
 #Preview {
     DamsonView()
+}
+
+struct DamsonViewContent: View {
+    
+    let navigation: Navigation
+    
+    var body: some View {
+        List {
+            Button("Push MangoView") {
+                navigation.push(.mango)
+            }
+            
+            Button("Present MangoView") {
+                navigation.push(.mango, type: .sheet)
+            }
+            
+#if !os(macOS)
+            Button("Cover MangoView") {
+                navigation.push(.mango, type: .fullScreenCover)
+            }
+#endif
+            
+            Button("Pop") {
+                navigation.pop()
+            }
+        }
+        .navigationTitle("DamsonView")
+    }
 }

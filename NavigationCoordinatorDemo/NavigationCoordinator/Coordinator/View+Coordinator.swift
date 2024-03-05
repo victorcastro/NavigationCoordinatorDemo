@@ -62,4 +62,14 @@ extension View {
     func destination() -> some View {
         self.modifier(DestinationViewModifier())
     }
+    
+    /// Connects the view contents to the navigation
+    /// - Parameter navigation: the navigation
+    func connect(_ navigation: Binding<Navigation?>) -> some View {
+        NavigationCoordinator { nav in
+            self.onAppear(perform: {
+                navigation.wrappedValue = nav
+            })
+        }
+    }
 }
