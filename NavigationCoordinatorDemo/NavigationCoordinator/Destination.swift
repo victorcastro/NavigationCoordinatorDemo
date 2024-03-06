@@ -24,7 +24,7 @@ enum Destination: Hashable, View {
     var body: some View {
         switch self {
         case .apple:
-            AppleView().destination(isNavigationBarBackButtonShown: false)
+            AppleView().destination(navigationBarBackButtonHidden: true)
         case .banana:
             BananaView().destination()
                 .presentationBackground(.ultraThinMaterial)
@@ -33,17 +33,17 @@ enum Destination: Hashable, View {
         case .damson:
             DamsonView().destination()
         case .mango:
-            MangoView().destination()
+            MangoView().destination(navigationBarBackButtonHidden: true)
         case .orange:
-            OrangeView().destination(isNavigationBarBackButtonShown: false)
+            OrangeView().destination(navigationBarBackButtonHidden: true)
         case .pear:
             PearView().destination()
         case .tomato:
-            TomatoView().destination(isNavigationBarBackButtonShown: false)
+            TomatoView().destination(navigationBarBackButtonHidden: true)
         case .watermelon:
             WatermelonView().destination()
         case .grapes:
-            GrapesView().destination(isNavigationBarBackButtonShown: false)
+            GrapesView().destination(navigationBarBackButtonHidden: true)
         case .grape:
             GrapeView().destination()
         }

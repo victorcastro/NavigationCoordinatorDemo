@@ -59,10 +59,10 @@ extension View {
     
     @ViewBuilder
     /// Sets the view a destination
-    func destination(isNavigationBarBackButtonShown: Bool = true) -> some View {
+    func destination(navigationBarBackButtonHidden: Bool = false) -> some View {
         NavigationCoordinator {
             self
-                .if(isNavigationBarBackButtonShown, transform: { view in
+                .if(!navigationBarBackButtonHidden, transform: { view in
                     view
                         .navigationBarBackButton(isShown: true)
                 })
