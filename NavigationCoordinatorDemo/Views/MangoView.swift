@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MangoView: View {
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     
     var body: some View {
         List {

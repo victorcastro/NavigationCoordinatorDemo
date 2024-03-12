@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PearView: View {
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     
     var body: some View {
         List {

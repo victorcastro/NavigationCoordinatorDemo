@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct NavigationCoordinator<Content: View>: View {
     
     @ViewBuilder var content: () -> Content
@@ -17,7 +18,7 @@ struct NavigationCoordinator<Content: View>: View {
         self.content = content
     }
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     @State private var isPresented = false
     @State private var navigationStep = NavigationStep(push: .none)
     @State private var destinationIndex = -1
@@ -41,23 +42,8 @@ struct NavigationCoordinator<Content: View>: View {
                         }
                     }
                     .onChange(of: isPresented) { _, newValue in
-                        if !newValue {
-                            let lastSheetIndex = navigation.stack.lastIndex { naviagtionStep in
-                                naviagtionStep.type == .sheet
-                            }
-                            
-                            if let lastSheetIndex = lastSheetIndex {
-                                if navigation.isPopping {
-                                    remove(1)
-                                    navigation.isPopping = false
-                                } else {
-                                    let last = navigation.stack.count - lastSheetIndex
-                                    remove(last)
-                                }
-                            } else {
-                                remove(1)
-                            }
-                        } else {
+                        if newValue {
+                            guard destinationIndex >= navigation.stack.count else { return }
                             dismissedDestination = navigation.stack[destinationIndex + 1].destination
                         }
                     }
@@ -71,11 +57,5 @@ struct NavigationCoordinator<Content: View>: View {
                 destinationIndex = navigation.stack.count - 1
                 navigation.destinationIndex = destinationIndex
             }
-    }
-    
-    func remove(_ last: Int) {
-        navigation.stack.removeLast(last)
-        navigation.isPresented.removeLast(last)
-        navigation.destinationIndex -= last
     }
 }

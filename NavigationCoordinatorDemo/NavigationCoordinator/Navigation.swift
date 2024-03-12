@@ -21,7 +21,7 @@ class Navigation: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    init(root: Destination) {
+    init(root: Destination? = nil) {
         stack = [.init(push: root)]
     }
     
@@ -66,41 +66,47 @@ class Navigation: ObservableObject {
     /// Pops the last n views from the coordinator navigation stack
     /// - Parameters:
     ///   - last: the number of views to be popped; defaults to 1
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
     ///   - onComplete: callback trigerred when the navigation finished
-    func pop(last: Int = 1, onComplete: (() -> Void)? = nil) {
+    func pop(last: Int = 1, oneByOne: Bool = false, onComplete: (() -> Void)? = nil) {
+        guard last > 0 else { return }
         let last = min(last, isPresented.count)
-        for i in 0..<last {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
-                self.isPopping = true
-                self.isPresented[self.destinationIndex - 1] = false
-            })
+        
+        if last == 1 {
+            popTheLast(onComplete: onComplete)
+        } else {
+            if oneByOne {
+                popTheLast(last, onComplete: onComplete)
+            } else {
+                popToFirstLink(last: last, onComplete: onComplete)
+            }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
-            onComplete?()
-        })
     }
     
     /// Pops to a specific destination from the coordinator navigation stack
     /// - Parameters:
     ///   - destination: the destination view
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
     ///   - onComplete: callback trigerred when the navigation finished
-    func pop(to destination: Destination, onComplete: (() -> Void)? = nil) {
+    func pop(to destination: Destination, oneByOne: Bool = false, onComplete: (() -> Void)? = nil) {
         let index = stack.firstIndex { navigationStep in
             navigationStep.destination == destination
         }
         guard let index = index else { return }
         let last = stack.count - 1 - index
-        pop(last: last, onComplete: onComplete)
+        guard last > 0 else { return }
+        pop(last: last, oneByOne: oneByOne, onComplete: onComplete)
     }
     
     /// Pops to root on a coordinator navigation stack
     /// - Parameters:
     ///   - type: the type of root
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
     ///   - onComplete: callback trigerred when the navigation finished
-    func popToRoot(_ type: RootType = .base, onComplete: (() -> Void)? = nil) {
+    func popToRoot(_ type: RootType = .base, oneByOne: Bool = false, onComplete: (() -> Void)? = nil) {
         switch type {
         case .base:
-            pop(last: destinationIndex, onComplete: onComplete)
+            pop(last: destinationIndex, oneByOne: oneByOne, onComplete: onComplete)
         case .lastModal:
             let index = stack.lastIndex { navigationStep in
                 navigationStep.type == .sheet || navigationStep.type == .fullScreenCover
@@ -108,7 +114,7 @@ class Navigation: ObservableObject {
             guard let index = index else { return }
             let destination = stack[index].destination
             guard let destination else { return }
-            pop(to: destination, onComplete: onComplete)
+            pop(to: destination, oneByOne: oneByOne, onComplete: onComplete)
         case .firstModal:
             let index = stack.firstIndex { navigationStep in
                 navigationStep.type == .sheet || navigationStep.type == .fullScreenCover
@@ -116,7 +122,7 @@ class Navigation: ObservableObject {
             guard let index = index else { return }
             let destination = stack[index].destination
             guard let destination else { return }
-            pop(to: destination, onComplete: onComplete)
+            pop(to: destination, oneByOne: oneByOne, onComplete: onComplete)
         case .modal(let count):
             var modalCount = 0
             stack.forEach { navigationStep in
@@ -140,7 +146,7 @@ class Navigation: ObservableObject {
             if index != -1 {
                 let destination = stack[index].destination
                 guard let destination else { return }
-                pop(to: destination, onComplete: onComplete)
+                pop(to: destination, oneByOne: oneByOne, onComplete: onComplete)
             }
             
         }
@@ -175,9 +181,10 @@ class Navigation: ObservableObject {
     /// Pops the last n views from the coordinator navigation stack
     /// - Parameters:
     ///   - last: the number of views to be popped; defaults to 1
-    func pop(last: Int = 1) async {
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
+    func pop(last: Int = 1, oneByOne: Bool = false) async {
         await withCheckedContinuation { continuation in
-            pop(last: last) {
+            pop(last: last, oneByOne: oneByOne) {
                 continuation.resume()
             }
         }
@@ -186,9 +193,10 @@ class Navigation: ObservableObject {
     /// Pops to a specific destination from the coordinator navigation stack
     /// - Parameters:
     ///   - destination: the destination view
-    func pop(to destination: Destination) async {
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
+    func pop(to destination: Destination, oneByOne: Bool = false) async {
         await withCheckedContinuation { continuation in
-            pop(to: destination) {
+            pop(to: destination, oneByOne: oneByOne) {
                 continuation.resume()
             }
         }
@@ -197,9 +205,10 @@ class Navigation: ObservableObject {
     /// Pops to root on a coordinator navigation stack
     /// - Parameters:
     ///   - type: the type of root
-    func popToRoot(_ type: RootType = .base) async {
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
+    func popToRoot(_ type: RootType = .base, oneByOne: Bool = false) async {
         await withCheckedContinuation { continuation in
-            popToRoot(type) {
+            popToRoot(type, oneByOne: oneByOne) {
                 continuation.resume()
             }
         }
@@ -252,6 +261,109 @@ class Navigation: ObservableObject {
             }
         }
         cancellable?.store(in: &cancellables)
+    }
+    
+    /// Pops the last destinations
+    /// - Parameter last: destinations count
+    private func popLast(_ last: Int) {
+        isPopping = true
+        isPresented[destinationIndex - 1] = false
+        
+        let lastSheetIndex = stack.lastIndex { naviagtionStep in
+            naviagtionStep.type == .sheet
+        }
+        
+        if let lastSheetIndex = lastSheetIndex {
+            if isPopping {
+                remove(1)
+                isPopping = false
+            } else {
+                let last = stack.count - lastSheetIndex
+                remove(last)
+            }
+        } else {
+            remove(1)
+        }
+    }
+    
+    /// Removes the last destination(s)
+    /// - Parameter last: count of destinations
+    private func remove(_ last: Int) {
+        stack.removeLast(last)
+        isPresented.removeLast(last)
+        destinationIndex -= last
+    }
+    
+    
+    /// Pops the last n views from the coordinator navigation stack
+    /// - Parameters:
+    ///   - last: the number of views to be popped; defaults to 1
+    ///   - onComplete: callback trigerred when the navigation finished
+    private func popTheLast(_ last: Int = 1, onComplete: (() -> Void)? = nil) {
+        for i in 0..<last {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
+                self.popLast(last)
+            })
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
+            onComplete?()
+        })
+    }
+    
+    /// Pops to the nearest link destination from the coordinator navigation stack
+    /// - Parameters:
+    ///   - last: the number of views to be popped
+    ///   - onComplete: callback trigerred when the navigation finished
+    private func popToFirstLink(last: Int, onComplete: (() -> Void)? = nil) {
+        let currentNavigationStepIndex = stack.count - 1
+        var firstLinkIndex = -1
+        var searching = true
+        
+        for i in 0..<last {
+            if searching {
+                let previousNavigationStepIndex = stack.count - i - 1
+                if stack[previousNavigationStepIndex].type == .link {
+                    firstLinkIndex = previousNavigationStepIndex
+                } else {
+                    searching = false
+                }
+            }
+        }
+        
+        if firstLinkIndex == currentNavigationStepIndex || firstLinkIndex == -1 {
+            pop {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+                    self.pop(last: last - 1, onComplete: onComplete)
+                })
+            }
+        } else {
+            stack[firstLinkIndex].destination = stack[currentNavigationStepIndex].destination
+            
+            var removableIndexes: [Int] = []
+            for j in firstLinkIndex..<currentNavigationStepIndex {
+                removableIndexes.append(j + 1)
+            }
+            
+            destinationIndex -= removableIndexes.count
+            
+            stack.remove(atOffsets: IndexSet(removableIndexes))
+            
+            var removableIsPresentedIndexes: [Int] = []
+            removableIndexes.forEach { index in
+                removableIsPresentedIndexes.append(index - 1)
+            }
+            isPresented.remove(atOffsets: IndexSet(removableIsPresentedIndexes))
+            pop {
+                let remaining = last - removableIndexes.count - 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+                    if remaining > 0 {
+                        self.pop(last: remaining, onComplete: onComplete)
+                    } else {
+                        onComplete?()
+                    }
+                })
+            }
+        }
     }
     
 }
