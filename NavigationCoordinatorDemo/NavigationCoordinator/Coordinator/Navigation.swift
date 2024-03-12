@@ -69,6 +69,7 @@ class Navigation: ObservableObject {
     ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
     ///   - onComplete: callback trigerred when the navigation finished
     func pop(last: Int = 1, oneByOne: Bool = false, onComplete: (() -> Void)? = nil) {
+        guard last > 0 else { return }
         let last = min(last, isPresented.count)
         
         if last == 1 {
@@ -93,6 +94,7 @@ class Navigation: ObservableObject {
         }
         guard let index = index else { return }
         let last = stack.count - 1 - index
+        guard last > 0 else { return }
         pop(last: last, oneByOne: oneByOne, onComplete: onComplete)
     }
     
