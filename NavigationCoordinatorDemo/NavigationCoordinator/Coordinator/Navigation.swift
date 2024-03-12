@@ -66,18 +66,37 @@ class Navigation: ObservableObject {
     /// Pops the last n views from the coordinator navigation stack
     /// - Parameters:
     ///   - last: the number of views to be popped; defaults to 1
+    ///   - oneByOne: should the pop dismiss the destinations one by one, defaults to `false`
     ///   - onComplete: callback trigerred when the navigation finished
-    func pop(last: Int = 1, onComplete: (() -> Void)? = nil) {
+    func pop(last: Int = 1, oneByOne: Bool = false, onComplete: (() -> Void)? = nil) {
         let last = min(last, isPresented.count)
-        for i in 0..<last {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
-                self.popLast(last)
-            })
+        
+        if last == 1 {
+            popTheLast(onComplete: onComplete)
+        } else {
+            if oneByOne {
+                popTheLast(last, onComplete: onComplete)
+            } else {
+                popToFirstLink(last: last, onComplete: onComplete)
+            }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
-            onComplete?()
-        })
     }
+    
+//    /// Pops the last n views from the coordinator navigation stack
+//    /// - Parameters:
+//    ///   - last: the number of views to be popped; defaults to 1
+//    ///   - onComplete: callback trigerred when the navigation finished
+//    func pop(last: Int = 1, onComplete: (() -> Void)? = nil) {
+//        let last = min(last, isPresented.count)
+//        for i in 0..<last {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
+//                self.popLast(last)
+//            })
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
+//            onComplete?()
+//        })
+//    }
     
     /// Pops to a specific destination from the coordinator navigation stack
     /// - Parameters:
@@ -282,6 +301,79 @@ class Navigation: ObservableObject {
         stack.removeLast(last)
         isPresented.removeLast(last)
         destinationIndex -= last
+    }
+    
+    
+    /// Pops the last n views from the coordinator navigation stack
+    /// - Parameters:
+    ///   - last: the number of views to be popped; defaults to 1
+    ///   - onComplete: callback trigerred when the navigation finished
+    private func popTheLast(_ last: Int = 1, onComplete: (() -> Void)? = nil) {
+        for i in 0..<last {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
+                self.popLast(last)
+            })
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
+            onComplete?()
+        })
+    }
+    
+    /// Pops to the nearest link destination from the coordinator navigation stack
+    /// - Parameters:
+    ///   - last: the number of views to be popped
+    ///   - onComplete: callback trigerred when the navigation finished
+    private func popToFirstLink(last: Int, onComplete: (() -> Void)? = nil) {
+        let currentNavigationStepIndex = stack.count - 1
+        var firstLinkIndex = -1
+        var searching = true
+        
+        for i in 0..<last {
+            if searching {
+                let previousNavigationStepIndex = stack.count - i - 1
+                if stack[previousNavigationStepIndex].type == .link {
+                    print(previousNavigationStepIndex)
+                    firstLinkIndex = previousNavigationStepIndex
+                } else {
+                    searching = false
+                }
+            }
+        }
+        
+        if firstLinkIndex == currentNavigationStepIndex || firstLinkIndex == -1 {
+            pop {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+                    self.pop(last: last - 1, onComplete: onComplete)
+                })
+            }
+        } else {
+            stack[firstLinkIndex].destination = stack[currentNavigationStepIndex].destination
+            
+            var removableIndexes: [Int] = []
+            for j in firstLinkIndex..<currentNavigationStepIndex {
+                removableIndexes.append(j + 1)
+            }
+            
+            destinationIndex -= removableIndexes.count
+            
+            stack.remove(atOffsets: IndexSet(removableIndexes))
+            
+            var removableIsPresentedIndexes: [Int] = []
+            removableIndexes.forEach { index in
+                removableIsPresentedIndexes.append(index - 1)
+            }
+            isPresented.remove(atOffsets: IndexSet(removableIsPresentedIndexes))
+            pop {
+                let remaining = last - removableIndexes.count - 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6, execute: {
+                    if remaining > 0 {
+                        self.pop(last: remaining, onComplete: onComplete)
+                    } else {
+                        onComplete?()
+                    }
+                })
+            }
+        }
     }
     
 }

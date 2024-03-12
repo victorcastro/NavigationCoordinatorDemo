@@ -43,6 +43,7 @@ struct NavigationCoordinator<Content: View>: View {
                     }
                     .onChange(of: isPresented) { _, newValue in
                         if newValue {
+                            guard destinationIndex >= navigation.stack.count else { return }
                             dismissedDestination = navigation.stack[destinationIndex + 1].destination
                         }
                     }
