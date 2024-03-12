@@ -323,7 +323,6 @@ class Navigation: ObservableObject {
             if searching {
                 let previousNavigationStepIndex = stack.count - i - 1
                 if stack[previousNavigationStepIndex].type == .link {
-                    print(previousNavigationStepIndex)
                     firstLinkIndex = previousNavigationStepIndex
                 } else {
                     searching = false
