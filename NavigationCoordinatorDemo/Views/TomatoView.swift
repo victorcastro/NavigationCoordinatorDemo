@@ -10,12 +10,12 @@ import SwiftUI
 struct TomatoView: View {
     
     @Environment(\.navigation) var navigation
-    @EnvironmentObject private var appController: AppController
+    @EnvironmentObject private var tabController: TabController
     
     var body: some View {
         List {
             Button("Push WatermelonView") {
-                appController.title = "Watermelon"
+                tabController.watermelonViewTitle = "Watermelon"
                 navigation.push(.watermelon)
             }
         }

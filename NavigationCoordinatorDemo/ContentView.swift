@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var appController = AppController()
+    @StateObject private var tabController = TabController()
+    
     var body: some View {
         TabView {
             NavigationRoot(.apple)
@@ -19,12 +23,14 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "2.circle")
                 }
+                .environmentObject(tabController)
             
             NavigationRoot(.grapes)
                 .tabItem {
                     Image(systemName: "3.circle")
                 }
         }
+        .environmentObject(appController)
     }
 }
 

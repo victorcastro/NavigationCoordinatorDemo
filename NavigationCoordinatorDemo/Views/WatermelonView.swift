@@ -10,7 +10,7 @@ import SwiftUI
 struct WatermelonView: View {
     
     @Environment(\.navigation) var navigation
-    @EnvironmentObject private var appController: AppController
+    @EnvironmentObject private var tabController: TabController
     
     var body: some View {
         List {
@@ -18,7 +18,7 @@ struct WatermelonView: View {
                 navigation.pop()
             }
         }
-        .navigationTitle("\(appController.title)View")
+        .navigationTitle("\(tabController.watermelonViewTitle)View")
     }
 }
 

@@ -12,6 +12,7 @@ struct OrangeView: View {
 //    @Environment(\.dismiss) private var dismiss // *DO NOT* use `dismiss` for coordinator navigation
     
     @Environment(\.navigation) var navigation
+    @EnvironmentObject private var appController: AppController
     
     var body: some View {
         List {
@@ -64,7 +65,7 @@ struct OrangeView: View {
             }
             
         }
-        .navigationTitle("OrangeView")
+        .navigationTitle(appController.orangeViewTitle)
         .navigationBarBackButton(iconSystemName: nil, title: "Cancel")
     }
 }
