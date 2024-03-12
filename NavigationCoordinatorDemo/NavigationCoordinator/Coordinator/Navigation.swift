@@ -21,7 +21,7 @@ class Navigation: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    init(root: Destination) {
+    init(root: Destination? = nil) {
         stack = [.init(push: root)]
     }
     

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct NavigationRoot: View {
     
     @StateObject private var navigation: Navigation
@@ -19,6 +20,6 @@ struct NavigationRoot: View {
     
     var body: some View {
         navigation.stack.first?.destination
-            .environmentObject(navigation)
+            .environment(\.navigation, navigation)
     }
 }

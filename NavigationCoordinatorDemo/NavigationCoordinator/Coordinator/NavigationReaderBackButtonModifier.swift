@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavigationReaderBackButtonModifier: ViewModifier {
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     
     let isShown: Bool
     let iconSystemName: String?

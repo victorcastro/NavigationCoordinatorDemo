@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct NavigationCoordinator<Content: View>: View {
     
     @ViewBuilder var content: () -> Content
@@ -17,7 +18,7 @@ struct NavigationCoordinator<Content: View>: View {
         self.content = content
     }
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     @State private var isPresented = false
     @State private var navigationStep = NavigationStep(push: .none)
     @State private var destinationIndex = -1

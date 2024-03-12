@@ -9,13 +9,13 @@ import SwiftUI
 
 struct GrapeView: View {
     
-    @EnvironmentObject private var navigation: Navigation
+    @Environment(\.navigation) var navigation
     @EnvironmentObject private var appController: AppController
     
     var body: some View {
         List {
-            Button("Present Banana View") {
-                navigation.push(.banana, type: .sheet)
+            Button("Push Banana View") {
+                navigation.push(.banana)
             }
         }
         .navigationTitle(appController.selectedGrape != nil ? "Grape \(appController.selectedGrape!)" : "Invalid grape")

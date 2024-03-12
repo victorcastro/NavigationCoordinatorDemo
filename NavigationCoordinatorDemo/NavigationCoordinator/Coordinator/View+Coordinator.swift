@@ -57,6 +57,7 @@ extension View {
         }
     }
     
+    @MainActor 
     @ViewBuilder
     /// Sets the view a destination
     func destination(navigationBarBackButtonHidden: Bool = false) -> some View {

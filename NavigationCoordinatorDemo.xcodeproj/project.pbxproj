@@ -33,6 +33,8 @@
 		C90B80BF2B81E7A4006BFBA7 /* OrangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80B52B81E7A4006BFBA7 /* OrangeView.swift */; };
 		C90B80C12B81E7C2006BFBA7 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80C02B81E7C2006BFBA7 /* AppController.swift */; };
 		C90B80C52B8259A2006BFBA7 /* DestinationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */; };
+		C99C7FC22BA0675600BEBC41 /* NavigationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C7FC12BA0675600BEBC41 /* NavigationKey.swift */; };
+		C99C7FC42BA0677A00BEBC41 /* EnvironmentValues+Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C7FC32BA0677A00BEBC41 /* EnvironmentValues+Coordinator.swift */; };
 		C9D7B2942B961FBD0033B117 /* GrapesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D7B2932B961FBD0033B117 /* GrapesView.swift */; };
 		C9D7B2962B961FD20033B117 /* GrapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D7B2952B961FD20033B117 /* GrapeView.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +67,8 @@
 		C90B80B52B81E7A4006BFBA7 /* OrangeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrangeView.swift; sourceTree = "<group>"; };
 		C90B80C02B81E7C2006BFBA7 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewModifier.swift; sourceTree = "<group>"; };
+		C99C7FC12BA0675600BEBC41 /* NavigationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationKey.swift; sourceTree = "<group>"; };
+		C99C7FC32BA0677A00BEBC41 /* EnvironmentValues+Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Coordinator.swift"; sourceTree = "<group>"; };
 		C9D7B2932B961FBD0033B117 /* GrapesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapesView.swift; sourceTree = "<group>"; };
 		C9D7B2952B961FD20033B117 /* GrapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +145,8 @@
 				C90B809D2B81E798006BFBA7 /* NavigationCoordinator.swift */,
 				C90B809E2B81E798006BFBA7 /* NavigationReaderBackButtonModifier.swift */,
 				C90B80C42B8259A2006BFBA7 /* DestinationViewModifier.swift */,
+				C99C7FC12BA0675600BEBC41 /* NavigationKey.swift */,
+				C99C7FC32BA0677A00BEBC41 /* EnvironmentValues+Coordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -238,6 +244,7 @@
 				C9D7B2942B961FBD0033B117 /* GrapesView.swift in Sources */,
 				C90B80A32B81E798006BFBA7 /* RootType.swift in Sources */,
 				C90B80A72B81E798006BFBA7 /* NavigationType.swift in Sources */,
+				C99C7FC42BA0677A00BEBC41 /* EnvironmentValues+Coordinator.swift in Sources */,
 				C90B80B82B81E7A4006BFBA7 /* BananaView.swift in Sources */,
 				C90B80B92B81E7A4006BFBA7 /* MangoView.swift in Sources */,
 				C90B80A92B81E798006BFBA7 /* NavigationCoordinator.swift in Sources */,
@@ -247,6 +254,7 @@
 				C90B80BF2B81E7A4006BFBA7 /* OrangeView.swift in Sources */,
 				C90B80A12B81E798006BFBA7 /* NavigationStep.swift in Sources */,
 				C90B80C12B81E7C2006BFBA7 /* AppController.swift in Sources */,
+				C99C7FC22BA0675600BEBC41 /* NavigationKey.swift in Sources */,
 				C90B80B72B81E7A4006BFBA7 /* WatermelonView.swift in Sources */,
 				C90B80A22B81E798006BFBA7 /* Navigation.swift in Sources */,
 				C90B80BA2B81E7A4006BFBA7 /* AppleView.swift in Sources */,
