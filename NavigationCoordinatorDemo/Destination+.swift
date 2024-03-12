@@ -44,6 +44,7 @@ extension Destination: View {
             WatermelonView().destination()
         case .grapes:
             GrapesView().destination(navigationBarBackButtonHidden: true)
+                .environmentObject(GrapesController())
         case .grape:
             GrapeView().destination()
         default:

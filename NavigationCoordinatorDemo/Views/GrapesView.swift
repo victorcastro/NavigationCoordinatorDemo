@@ -10,13 +10,13 @@ import SwiftUI
 struct GrapesView: View {
     
     @Environment(\.navigation) var navigation
-    @EnvironmentObject private var appController: AppController
+    @EnvironmentObject private var grapesController: GrapesController
     
     var body: some View {
         List {
-            ForEach(appController.grapes, id: \.self) { grape in
+            ForEach(grapesController.grapes, id: \.self) { grape in
                 Button {
-                    appController.selectedGrape = grape
+                    grapesController.selectedGrape = grape
                     navigation.push(.grape)
                 } label: {
                     Text("Grape: \(grape)")

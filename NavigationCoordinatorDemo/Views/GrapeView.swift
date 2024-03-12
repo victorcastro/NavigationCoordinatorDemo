@@ -10,7 +10,7 @@ import SwiftUI
 struct GrapeView: View {
     
     @Environment(\.navigation) var navigation
-    @EnvironmentObject private var appController: AppController
+    @EnvironmentObject private var grapesController: GrapesController
     
     var body: some View {
         List {
@@ -18,7 +18,7 @@ struct GrapeView: View {
                 navigation.push(.banana)
             }
         }
-        .navigationTitle(appController.selectedGrape != nil ? "Grape \(appController.selectedGrape!)" : "Invalid grape")
+        .navigationTitle(grapesController.selectedGrape != nil ? "Grape \(grapesController.selectedGrape!)" : "Invalid grape")
     }
 }
 
