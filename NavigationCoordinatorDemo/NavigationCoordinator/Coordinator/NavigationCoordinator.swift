@@ -42,23 +42,7 @@ struct NavigationCoordinator<Content: View>: View {
                         }
                     }
                     .onChange(of: isPresented) { _, newValue in
-                        if !newValue {
-                            let lastSheetIndex = navigation.stack.lastIndex { naviagtionStep in
-                                naviagtionStep.type == .sheet
-                            }
-                            
-                            if let lastSheetIndex = lastSheetIndex {
-                                if navigation.isPopping {
-                                    remove(1)
-                                    navigation.isPopping = false
-                                } else {
-                                    let last = navigation.stack.count - lastSheetIndex
-                                    remove(last)
-                                }
-                            } else {
-                                remove(1)
-                            }
-                        } else {
+                        if newValue {
                             dismissedDestination = navigation.stack[destinationIndex + 1].destination
                         }
                     }
@@ -72,11 +56,5 @@ struct NavigationCoordinator<Content: View>: View {
                 destinationIndex = navigation.stack.count - 1
                 navigation.destinationIndex = destinationIndex
             }
-    }
-    
-    func remove(_ last: Int) {
-        navigation.stack.removeLast(last)
-        navigation.isPresented.removeLast(last)
-        navigation.destinationIndex -= last
     }
 }

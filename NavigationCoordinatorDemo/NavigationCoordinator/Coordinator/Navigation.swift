@@ -71,8 +71,7 @@ class Navigation: ObservableObject {
         let last = min(last, isPresented.count)
         for i in 0..<last {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(i), execute: {
-                self.isPopping = true
-                self.isPresented[self.destinationIndex - 1] = false
+                self.popLast(last)
             })
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.001 + 0.6 * Double(last - 1), execute: {
@@ -252,6 +251,37 @@ class Navigation: ObservableObject {
             }
         }
         cancellable?.store(in: &cancellables)
+    }
+    
+    /// Pops the last destinations
+    /// - Parameter last: destinations count
+    private func popLast(_ last: Int) {
+        isPopping = true
+        isPresented[destinationIndex - 1] = false
+        
+        let lastSheetIndex = stack.lastIndex { naviagtionStep in
+            naviagtionStep.type == .sheet
+        }
+        
+        if let lastSheetIndex = lastSheetIndex {
+            if isPopping {
+                remove(1)
+                isPopping = false
+            } else {
+                let last = stack.count - lastSheetIndex
+                remove(last)
+            }
+        } else {
+            remove(1)
+        }
+    }
+    
+    /// Removes the last destination(s)
+    /// - Parameter last: count of destinations
+    private func remove(_ last: Int) {
+        stack.removeLast(last)
+        isPresented.removeLast(last)
+        destinationIndex -= last
     }
     
 }
