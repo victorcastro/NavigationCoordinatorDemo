@@ -28,6 +28,12 @@ struct OrangeView: View {
                 }
             }
             
+            Button("Pop to root one by one") {
+                navigation.popToRoot(oneByOne: true) {
+                    print("Completed popping to root.")
+                }
+            }
+            
             Button("Pop to last modal root") {
                 navigation.popToRoot(.lastModal) {
                     print("Completed popping to last modal root.")
