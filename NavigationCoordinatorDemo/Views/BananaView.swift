@@ -38,6 +38,9 @@ struct BananaView: View {
             }
         }
         .navigationTitle("BananaView")
+        .onAppear {
+            print("Banana view")
+        }
     }
 }
 

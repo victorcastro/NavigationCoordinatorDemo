@@ -87,6 +87,9 @@ struct AppleView: View {
             }
         }
         .navigationTitle("AppleView")
+        .onAppear {
+            print("Apple view")
+        }
     }
 }
 

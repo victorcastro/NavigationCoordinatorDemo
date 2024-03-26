@@ -26,33 +26,30 @@ struct NavigationCoordinator<Content: View>: View {
     
     var body: some View {
         content()
-            .if(destinationIndex != -1, transform: { view in
-                view
-                    .navigation(navigationStep.type, isPresented: $isPresented, onDismiss: {
-                        navigation.dismissedDestination = dismissedDestination
-                    }, destination: {
-                        if destinationIndex < navigation.stack.count - 1 {
-                            navigation.stack[destinationIndex + 1].destination
-                                .navigationBarBackButtonHidden()
-                        }
-                    })
-                    .onReceive(navigation.$isPresented) { isPresented in
-                        if destinationIndex < isPresented.count {
-                            self.isPresented = isPresented[destinationIndex]
-                        }
-                    }
-                    .onChange(of: isPresented) { _, newValue in
-                        if newValue {
-                            guard destinationIndex >= navigation.stack.count else { return }
-                            dismissedDestination = navigation.stack[destinationIndex + 1].destination
-                        }
-                    }
-                    .onReceive(navigation.$stack) { stack in
-                        if destinationIndex < stack.count - 1 {
-                            self.navigationStep = stack[destinationIndex + 1]
-                        }
-                    }
+            .navigation(navigationStep.type, isPresented: $isPresented, onDismiss: {
+                navigation.dismissedDestination = dismissedDestination
+            }, destination: {
+                if destinationIndex != -1, destinationIndex < navigation.stack.count - 1 {
+                    navigation.stack[destinationIndex + 1].destination
+                        .navigationBarBackButtonHidden()
+                }
             })
+            .onReceive(navigation.$isPresented) { isPresented in
+                if destinationIndex != -1, destinationIndex < isPresented.count {
+                    self.isPresented = isPresented[destinationIndex]
+                }
+            }
+            .onChange(of: isPresented) { _, newValue in
+                if newValue {
+                    guard destinationIndex == -1 || destinationIndex >= navigation.stack.count else { return }
+                    dismissedDestination = navigation.stack[destinationIndex + 1].destination
+                }
+            }
+            .onReceive(navigation.$stack) { stack in
+                if destinationIndex != -1, destinationIndex < stack.count - 1 {
+                    self.navigationStep = stack[destinationIndex + 1]
+                }
+            }
             .onFirstAppear {
                 destinationIndex = navigation.stack.count - 1
                 navigation.destinationIndex = destinationIndex

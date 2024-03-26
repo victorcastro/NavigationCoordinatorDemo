@@ -9,20 +9,6 @@ import SwiftUI
 
 extension View {
     
-    /// Applies the given transform if the given condition evaluates to `true`.
-    /// - Parameters:
-    ///   - condition: The condition to evaluate.
-    ///   - transform: The transform to apply to the source `View`.
-    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
-    @ViewBuilder
-    func `if`<Content: View>(_ condition: @autoclosure () -> Bool, transform: (Self) -> Content) -> some View {
-        if condition() {
-            transform(self)
-        } else {
-            self
-        }
-    }
-    
     @ViewBuilder
     /// Presents a view when a binding to a Boolean value that you
     /// provide is true.
@@ -62,11 +48,7 @@ extension View {
     /// Sets the view a destination
     func destination(navigationBarBackButtonHidden: Bool = false) -> some View {
         NavigationCoordinator {
-            self
-                .if(!navigationBarBackButtonHidden, transform: { view in
-                    view
-                        .navigationBarBackButton(isShown: true)
-                })
+            self.navigationBarBackButton(isShown: !navigationBarBackButtonHidden)
         }
         .modifier(DestinationViewModifier())
     }

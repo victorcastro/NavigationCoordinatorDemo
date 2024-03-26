@@ -17,8 +17,8 @@ struct NavigationReaderBackButtonModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .if(isShown, transform: { view in
-                view.toolbar(content: {
+            .toolbar(content: {
+                if isShown {
                     ToolbarItem(placement: .cancellationAction) {
                         Button {
                             navigation.pop()
@@ -39,9 +39,8 @@ struct NavigationReaderBackButtonModifier: ViewModifier {
                             }
                         }
                     }
-                })
+                }
             })
-            
     }
 }
 
