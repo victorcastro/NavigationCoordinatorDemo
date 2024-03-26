@@ -11,6 +11,8 @@ struct AppleView: View {
     
     @Environment(\.navigation) var navigation
     
+    @StateObject private var viewModel = AppleViewModel()
+    
     var body: some View {
         List {
             Button("Push BananaView") {
@@ -21,6 +23,10 @@ struct AppleView: View {
                 navigation.push(.banana, onComplete: {
                     print("Pushed BananaView.")
                 })
+            }
+            
+            Button("Push BananaView with onComplete from View Model") {
+                viewModel.pushBananaView(with: navigation)
             }
             
             Button("Push BananaView with onDismiss") {

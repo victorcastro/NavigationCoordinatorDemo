@@ -11,6 +11,8 @@ struct BananaView: View {
     
     @Environment(\.navigation) var navigation
     
+    @State private var viewModel = BananaViewModel()
+    
     var body: some View {
         ScrollView {
             Button("Push CarrotView") {
@@ -18,6 +20,12 @@ struct BananaView: View {
                     print("Pushed CarrotView.")
                 } onDismiss: {
                     print("Dismissed CarrotView.")
+                }
+            }
+            
+            Button("Push async CarrotView from View Model") {
+                Task {
+                    await viewModel.pushCarrotView(with: navigation)
                 }
             }
             
